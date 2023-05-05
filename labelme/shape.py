@@ -90,6 +90,7 @@ class Shape(object):
         if value is None:
             value = "polygon"
         if value not in [
+            "ai",
             "polygon",
             "rectangle",
             "point",

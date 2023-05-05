@@ -327,6 +327,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.tr("Start drawing polygons"),
             enabled=False,
         )
+        createAiMode = action(
+            self.tr("Create Polygons by AI"),
+            lambda: self.toggleDrawMode(False, createMode="ai"),
+            shortcuts["ai_polygon"],
+            "objects",
+            self.tr("Start drawing polygons"),
+            enabled=False,
+        )
         createRectangleMode = action(
             self.tr("Create Rectangle"),
             lambda: self.toggleDrawMode(False, createMode="rectangle"),
@@ -598,6 +606,7 @@ class MainWindow(QtWidgets.QMainWindow):
             removePoint=removePoint,
             createMode=createMode,
             editMode=editMode,
+            createAiMode=createAiMode,
             createRectangleMode=createRectangleMode,
             createCircleMode=createCircleMode,
             createLineMode=createLineMode,
@@ -632,6 +641,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # menu shown at right click
             menu=(
                 createMode,
+                createAiMode,
                 createRectangleMode,
                 createCircleMode,
                 createLineMode,
@@ -650,6 +660,7 @@ class MainWindow(QtWidgets.QMainWindow):
             onLoadActive=(
                 close,
                 createMode,
+                createAiMode,
                 createRectangleMode,
                 createCircleMode,
                 createLineMode,
@@ -847,6 +858,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.menus.edit.clear()
         actions = (
             self.actions.createMode,
+            self.actions.createAiMode,
             self.actions.createRectangleMode,
             self.actions.createCircleMode,
             self.actions.createLineMode,
@@ -878,6 +890,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dirty = False
         self.actions.save.setEnabled(False)
         self.actions.createMode.setEnabled(True)
+        self.actions.createAiMode.setEnabled(True)
         self.actions.createRectangleMode.setEnabled(True)
         self.actions.createCircleMode.setEnabled(True)
         self.actions.createLineMode.setEnabled(True)
@@ -955,6 +968,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.canvas.createMode = createMode
         if edit:
             self.actions.createMode.setEnabled(True)
+            self.actions.createAiMode.setEnabled(True)
             self.actions.createRectangleMode.setEnabled(True)
             self.actions.createCircleMode.setEnabled(True)
             self.actions.createLineMode.setEnabled(True)
@@ -963,6 +977,15 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             if createMode == "polygon":
                 self.actions.createMode.setEnabled(False)
+                self.actions.createAiMode.setEnabled(True)
+                self.actions.createRectangleMode.setEnabled(True)
+                self.actions.createCircleMode.setEnabled(True)
+                self.actions.createLineMode.setEnabled(True)
+                self.actions.createPointMode.setEnabled(True)
+                self.actions.createLineStripMode.setEnabled(True)
+            elif createMode == "ai":
+                self.actions.createMode.setEnabled(True)
+                self.actions.createAiMode.setEnabled(False)
                 self.actions.createRectangleMode.setEnabled(True)
                 self.actions.createCircleMode.setEnabled(True)
                 self.actions.createLineMode.setEnabled(True)
@@ -970,6 +993,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineStripMode.setEnabled(True)
             elif createMode == "rectangle":
                 self.actions.createMode.setEnabled(True)
+                self.actions.createAiMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(False)
                 self.actions.createCircleMode.setEnabled(True)
                 self.actions.createLineMode.setEnabled(True)
@@ -977,6 +1001,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineStripMode.setEnabled(True)
             elif createMode == "line":
                 self.actions.createMode.setEnabled(True)
+                self.actions.createAiMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
                 self.actions.createCircleMode.setEnabled(True)
                 self.actions.createLineMode.setEnabled(False)
@@ -984,6 +1009,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineStripMode.setEnabled(True)
             elif createMode == "point":
                 self.actions.createMode.setEnabled(True)
+                self.actions.createAiMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
                 self.actions.createCircleMode.setEnabled(True)
                 self.actions.createLineMode.setEnabled(True)
@@ -991,6 +1017,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineStripMode.setEnabled(True)
             elif createMode == "circle":
                 self.actions.createMode.setEnabled(True)
+                self.actions.createAiMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
                 self.actions.createCircleMode.setEnabled(False)
                 self.actions.createLineMode.setEnabled(True)
@@ -998,6 +1025,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineStripMode.setEnabled(True)
             elif createMode == "linestrip":
                 self.actions.createMode.setEnabled(True)
+                self.actions.createAiMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
                 self.actions.createCircleMode.setEnabled(True)
                 self.actions.createLineMode.setEnabled(True)

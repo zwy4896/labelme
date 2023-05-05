@@ -50,6 +50,7 @@ class Canvas(QtWidgets.QWidget):
         self._crosshair = kwargs.pop(
             "crosshair",
             {
+                "ai": False,
                 "polygon": False,
                 "rectangle": True,
                 "circle": False,
@@ -112,6 +113,7 @@ class Canvas(QtWidgets.QWidget):
     @createMode.setter
     def createMode(self, value):
         if value not in [
+            "ai",
             "polygon",
             "rectangle",
             "circle",
@@ -388,6 +390,10 @@ class Canvas(QtWidgets.QWidget):
                     self.current = Shape(shape_type=self.createMode)
                     self.current.addPoint(pos)
                     if self.createMode == "point":
+                        self.finalise()
+                    elif self.createMode == "ai":
+                        # TODO
+                        # Load sementic-segmentation model and run
                         self.finalise()
                     else:
                         if self.createMode == "circle":

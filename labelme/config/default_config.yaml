@@ -69,6 +69,7 @@ canvas:
   num_backups: 10
   # show crosshair
   crosshair:
+    ai: false
     polygon: false
     rectangle: true
     circle: false
@@ -95,6 +96,7 @@ shortcuts:
   fit_window: Ctrl+F
   fit_width: Ctrl+Shift+F
 
+  ai_polygon: null
   create_polygon: Ctrl+N
   create_rectangle: Ctrl+R
   create_circle: null
