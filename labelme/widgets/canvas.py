@@ -217,7 +217,10 @@ class Canvas(QtWidgets.QWidget):
 
         # Polygon drawing.
         if self.drawing():
-            self.line.shape_type = self.createMode
+            if self.createMode == "ai":
+                self.line.shape_type = "points"
+            else:
+                self.line.shape_type = self.createMode
 
             self.overrideCursor(CURSOR_DRAW)
             if not self.current:
@@ -242,6 +245,12 @@ class Canvas(QtWidgets.QWidget):
             if self.createMode in ["polygon", "linestrip"]:
                 self.line[0] = self.current[-1]
                 self.line[1] = pos
+            elif self.createMode == "ai":
+                self.line.points = [self.current.points[-1], pos]
+                self.line.point_labels = [
+                    self.current.point_labels[-1],
+                    0,
+                ]
             elif self.createMode == "rectangle":
                 self.line.points = [self.current[0], pos]
                 self.line.close()
@@ -392,8 +401,7 @@ class Canvas(QtWidgets.QWidget):
                     if self.createMode == "point":
                         self.finalise()
                     elif self.createMode == "ai":
-                        # TODO
-                        # Load sementic-segmentation model and run
+                        point = [self.current.points[0].x(), self.current.points[0].y()]
                         self.finalise()
                     else:
                         if self.createMode == "circle":
