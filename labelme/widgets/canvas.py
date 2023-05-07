@@ -2,7 +2,7 @@ from qtpy import QtCore
 from qtpy import QtGui
 from qtpy import QtWidgets
 
-import labelme.ai
+# import labelme.ai
 from labelme.logger import logger
 from labelme import QT5
 from labelme.shape import Shape
@@ -38,6 +38,7 @@ class Canvas(QtWidgets.QWidget):
     _createMode = "polygon"
 
     _fill_drawing = False
+    i = 0
 
     def __init__(self, *args, **kwargs):
         self.epsilon = kwargs.pop("epsilon", 10.0)
@@ -126,12 +127,12 @@ class Canvas(QtWidgets.QWidget):
             "ai_polygon",
         ]:
             raise ValueError("Unsupported createMode: %s" % value)
-
-        if value == "ai_polygon" and self._ai_model is None:
-            self._ai_model = labelme.ai.SegmentAnythingModel()
-            self._ai_model.set_image(
-                image=labelme.utils.img_qt_to_arr(self.pixmap.toImage())
-            )
+        # TODO
+        # if value == "ai_polygon" and self._ai_model is None:
+        #     self._ai_model = labelme.ai.SegmentAnythingModel()
+        #     self._ai_model.set_image(
+        #         image=labelme.utils.img_qt_to_arr(self.pixmap.toImage())
+        #     )
 
         self._createMode = value
 
@@ -424,8 +425,8 @@ class Canvas(QtWidgets.QWidget):
                         self.line.point_labels[0] = self.current.point_labels[
                             -1
                         ]
-                        if ev.modifiers() & QtCore.Qt.ControlModifier:
-                            self.finalise()
+                        # if ev.modifiers() & QtCore.Qt.ControlModifier:
+                        self.finalise()
                 elif not self.outOfPixmap(pos):
                     # Create new shape.
                     self.current = Shape(
@@ -746,17 +747,138 @@ class Canvas(QtWidgets.QWidget):
             drawing_shape.fill = True
             drawing_shape.paint(p)
         elif self.createMode == "ai_polygon" and self.current is not None:
+            if self.i == 0:
+                self.i+=1
+                import time
+                time.sleep(1)
+                
             drawing_shape = self.current.copy()
             drawing_shape.addPoint(
                 point=self.line.points[1],
                 label=self.line.point_labels[1],
             )
-            points = self._ai_model.predict_polygon_from_points(
-                points=[
-                    [point.x(), point.y()] for point in drawing_shape.points
-                ],
-                point_labels=drawing_shape.point_labels,
-            )
+            # points = self._ai_model.predict_polygon_from_points(
+            #     points=[
+            #         [point.x(), point.y()] for point in drawing_shape.points
+            #     ],
+            #     point_labels=drawing_shape.point_labels,
+            # )
+            # TODO
+            # For test
+            points = [
+                [
+        260.936170212766,
+        22.948445171849443
+        ],
+        [
+        193.936170212766,
+        19.948445171849443
+        ],
+        [
+        124.93617021276599,
+        39.94844517184944
+        ],
+        [
+        89.93617021276599,
+        101.94844517184944
+        ],
+        [
+        81.93617021276599,
+        150.94844517184944
+        ],
+        [
+        108.93617021276599,
+        145.94844517184944
+        ],
+        [
+        88.93617021276599,
+        244.94844517184944
+        ],
+        [
+        89.93617021276599,
+        322.94844517184936
+        ],
+        [
+        116.93617021276599,
+        367.94844517184936
+        ],
+        [
+        158.936170212766,
+        368.94844517184936
+        ],
+        [
+        165.936170212766,
+        337.94844517184936
+        ],
+        [
+        347.936170212766,
+        335.94844517184936
+        ],
+        [
+        349.936170212766,
+        369.94844517184936
+        ],
+        [
+        391.936170212766,
+        373.94844517184936
+        ],
+        [
+        403.936170212766,
+        335.94844517184936
+        ],
+        [
+        425.936170212766,
+        332.94844517184936
+        ],
+        [
+        421.936170212766,
+        281.94844517184936
+        ],
+        [
+        428.936170212766,
+        252.94844517184944
+        ],
+        [
+        428.936170212766,
+        236.94844517184944
+        ],
+        [
+        409.936170212766,
+        220.94844517184944
+        ],
+        [
+        409.936170212766,
+        150.94844517184944
+        ],
+        [
+        430.936170212766,
+        143.94844517184944
+        ],
+        [
+        433.936170212766,
+        112.94844517184944
+        ],
+        [
+        431.936170212766,
+        96.94844517184944
+        ],
+        [
+        408.936170212766,
+        90.94844517184944
+        ],
+        [
+        395.936170212766,
+        50.94844517184944
+        ],
+        [
+        338.936170212766,
+        25.948445171849443
+        ],
+        [
+        260.936170212766,
+        22.948445171849443
+        ]
+            ]
             if len(points) > 2:
                 drawing_shape.setShapeRefined(
                     points=[
@@ -792,12 +914,122 @@ class Canvas(QtWidgets.QWidget):
         if self.createMode == "ai_polygon":
             # convert points to polygon by an AI model
             assert self.current.shape_type == "points"
-            points = self._ai_model.predict_polygon_from_points(
-                points=[
-                    [point.x(), point.y()] for point in self.current.points
-                ],
-                point_labels=self.current.point_labels,
-            )
+            # TODO
+            # For test
+            points = [
+                [
+          260.936170212766,
+          22.948445171849443
+        ],
+        [
+          193.936170212766,
+          19.948445171849443
+        ],
+        [
+          124.93617021276599,
+          39.94844517184944
+        ],
+        [
+          89.93617021276599,
+          101.94844517184944
+        ],
+        [
+          81.93617021276599,
+          150.94844517184944
+        ],
+        [
+          108.93617021276599,
+          145.94844517184944
+        ],
+        [
+          88.93617021276599,
+          244.94844517184944
+        ],
+        [
+          89.93617021276599,
+          322.94844517184936
+        ],
+        [
+          116.93617021276599,
+          367.94844517184936
+        ],
+        [
+          158.936170212766,
+          368.94844517184936
+        ],
+        [
+          165.936170212766,
+          337.94844517184936
+        ],
+        [
+          347.936170212766,
+          335.94844517184936
+        ],
+        [
+          349.936170212766,
+          369.94844517184936
+        ],
+        [
+          391.936170212766,
+          373.94844517184936
+        ],
+        [
+          403.936170212766,
+          335.94844517184936
+        ],
+        [
+          425.936170212766,
+          332.94844517184936
+        ],
+        [
+          421.936170212766,
+          281.94844517184936
+        ],
+        [
+          428.936170212766,
+          252.94844517184944
+        ],
+        [
+          428.936170212766,
+          236.94844517184944
+        ],
+        [
+          409.936170212766,
+          220.94844517184944
+        ],
+        [
+          409.936170212766,
+          150.94844517184944
+        ],
+        [
+          430.936170212766,
+          143.94844517184944
+        ],
+        [
+          433.936170212766,
+          112.94844517184944
+        ],
+        [
+          431.936170212766,
+          96.94844517184944
+        ],
+        [
+          408.936170212766,
+          90.94844517184944
+        ],
+        [
+          395.936170212766,
+          50.94844517184944
+        ],
+        [
+          338.936170212766,
+          25.948445171849443
+        ],
+        [
+          260.936170212766,
+          22.948445171849443
+        ]
+            ]
             self.current.setShapeRefined(
                 points=[
                     QtCore.QPointF(point[0], point[1]) for point in points
@@ -997,9 +1229,8 @@ class Canvas(QtWidgets.QWidget):
     def loadPixmap(self, pixmap, clear_shapes=True):
         self.pixmap = pixmap
         if self._ai_model:
-            self._ai_model.set_image(
-                image=labelme.utils.img_qt_to_arr(self.pixmap.toImage())
-            )
+            # TODO
+            pass
         if clear_shapes:
             self.shapes = []
         self.update()

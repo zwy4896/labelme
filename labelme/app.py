@@ -368,7 +368,7 @@ class MainWindow(QtWidgets.QMainWindow):
             enabled=False,
         )
         createAiPolygonMode = action(
-            self.tr("Create AI-Polygon"),
+            self.tr("Segment_Anything"),
             lambda: self.toggleDrawMode(False, createMode="ai_polygon"),
             None,
             "objects",
@@ -751,7 +751,7 @@ class MainWindow(QtWidgets.QMainWindow):
             save,
             deleteFile,
             None,
-            createMode,
+            createAiPolygonMode,
             editMode,
             duplicate,
             copy,
